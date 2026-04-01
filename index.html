@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Energy - Interactive Learning Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section id="landing" class="seashore">
+        <div class="sky-mesh"></div>
+        <div class="sky-stars" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="sky">
+            <button class="sun" id="landing-sun" type="button" aria-label="Go to solar simulation">
+                <span class="tooltip">Tap to launch simulation</span>
+            </button>
+            <div class="clouds">
+                <div class="cloud cloud1"></div>
+                <div class="cloud cloud2"></div>
+                <div class="cloud cloud3"></div>
+            </div>
+        </div>
+        <div class="ocean">
+            <div class="wave wave1"></div>
+            <div class="wave wave2"></div>
+            <div class="wave wave3"></div>
+            <div class="wave wave4"></div>
+        </div>
+        <div class="shore">
+            <div class="windmill-silhouette"></div>
+        </div>
+    </section>
+
+    <section id="learn-more" class="learn-section">
+        <div class="learn-grid">
+            <article class="learn-card">
+                <h2>Clean by Design</h2>
+                <p>Solar panels generate power without fuel burning, reducing emissions and improving air quality.</p>
+            </article>
+            <article class="learn-card">
+                <h2>Reliable in Systems</h2>
+                <p>Battery storage and smart grids help deliver solar energy consistently, even after sunset.</p>
+            </article>
+            <article class="learn-card">
+                <h2>Scales Everywhere</h2>
+                <p>From rooftops to utility fields, photovoltaic tech adapts to communities of every size.</p>
+            </article>
+        </div>
+    </section>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&amp;times;</span>
+            <h3>What is Solar Energy?</h3>
+            <p><strong>How it works:</strong> Sunlight strikes photovoltaic cells. Electrons get energized and create direct current, which an inverter converts to usable alternating current.</p>
+            <p><strong>Advantages:</strong></p>
+            <ul>
+                <li>Renewable and infinite source</li>
+                <li>Reduces carbon emissions</li>
+                <li>Low operating costs</li>
+                <li>Eco-friendly</li>
+            </ul>
+            <p><strong>Limitations:</strong></p>
+            <ul>
+                <li>Weather dependent (clouds/rain)</li>
+                <li>High initial installation cost</li>
+                <li>Requires space</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

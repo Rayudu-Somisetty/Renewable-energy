@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Energy Simulation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="solar-page">
+    <div class="solar-aurora" aria-hidden="true"></div>
+    <header class="solar-header">
+        <div>
+            <p class="eyebrow">Interactive Energy Studio</p>
+            <h1>Solar Energy Module</h1>
+        </div>
+        <a href="index.html" class="back-btn">Back to Landing</a>
+    </header>
+
+    <main class="solar-sim">
+        <section class="sim-intro">
+            <h2>Switch between night and daylight to watch the grid respond instantly.</h2>
+            <div class="state-pills">
+                <span id="state-mode" class="pill">Mode: Sunlight</span>
+                <span id="state-flow" class="pill">Current: Active</span>
+            </div>
+        </section>
+
+        <div class="circuit-container" id="circuit-shell">
+            <div class="working-help" id="working-help-wrap">
+                <button id="working-btn" class="working-btn" type="button" aria-expanded="false" aria-controls="working-panel">Working</button>
+                <div id="working-panel" class="working-panel" hidden>
+                    <h3>How Solar Power Works</h3>
+                    <ul>
+                        <li>Sunlight strikes photovoltaic (PV) cells inside the solar panel.</li>
+                        <li>Photons transfer energy to electrons in the semiconductor layers.</li>
+                        <li>The panel's internal electric field pushes electrons in one direction, creating direct current (DC).</li>
+                        <li>The current travels through the wire path and reaches the load, which lights the bulb in this model.</li>
+                        <li>Lower light means lower current flow, so the bulb dims or turns off.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sun-moon-control">
+                <button id="sun-moon-toggle" class="sun-moon-btn" type="button" aria-label="Switch to Moon mode" data-hint="Click for Moon">
+                    <span class="icon-sun" aria-hidden="true"></span>
+                    <span class="icon-moon" aria-hidden="true"></span>
+                </button>
+            </div>
+
+            <div class="solar-panel-section">
+                <div class="panel-rig" id="panel-rig">
+                    <div class="panel-mount" aria-hidden="true">
+                        <span class="mount-arm"></span>
+                        <span class="mount-pole"></span>
+                        <span class="mount-base"></span>
+                    </div>
+                    <div class="solar-panel proper-panel" id="solar-panel">
+                        <div class="panel-frame"></div>
+                        <div class="panel-cells"></div>
+                        <div class="panel-shine" id="panel-shine"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wiring" id="wiring" aria-hidden="true">
+                <div class="wire-layer wire-base-layer">
+                    <div class="wire-seg base-main"></div>
+                </div>
+                <div class="wire-layer wire-flow-layer" id="wire-glow">
+                    <div class="wire-seg flow-main"></div>
+                    <span class="spark spark-main-a"></span>
+                    <span class="spark spark-main-b"></span>
+                </div>
+                <span class="wire-node node-panel"></span>
+                <span class="wire-node node-bulb"></span>
+            </div>
+
+            <div class="bulb-section">
+                <div class="bulb proper-bulb" id="bulb">
+                    <div class="bulb-cap" aria-hidden="true"></div>
+                    <div class="filament-rail rail-left" aria-hidden="true"></div>
+                    <div class="filament-rail rail-right" aria-hidden="true"></div>
+                    <div class="filament-loop" id="filament"></div>
+                    <div class="bulb-glow" id="bulb-glow"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
