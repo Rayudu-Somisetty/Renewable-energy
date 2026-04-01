@@ -359,32 +359,173 @@ h3 {
 
 .windmill-silhouette {
     position: absolute;
-    right: 10%;
-    top: -48px;
-    width: 88px;
-    height: 130px;
-    background: linear-gradient(180deg, rgba(31, 48, 60, 0.82), rgba(16, 26, 34, 0.96));
-    clip-path: polygon(45% 0, 58% 0, 70% 95%, 30% 95%);
+    --landing-scale: 2;
+    right: 8%;
+    top: -130px;
+    width: 220px;
+    height: 320px;
+    border: 0;
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+    transform: scale(var(--landing-scale));
+    transform-origin: 50% 100%;
+    transition: transform 0.25s ease, filter 0.25s ease;
 }
 
-.windmill-silhouette::before,
-.windmill-silhouette::after {
+.landing-tower {
+    position: absolute;
+    width: 28px;
+    height: 230px;
+    left: 50%;
+    top: 74px;
+    transform: translateX(-50%);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(232, 245, 255, 0.95), rgba(159, 180, 198, 0.95) 56%, rgba(98, 119, 138, 0.95) 100%);
+    box-shadow: 0 14px 20px rgba(3, 11, 18, 0.46);
+}
+
+.landing-base {
+    position: absolute;
+    width: 160px;
+    height: 24px;
+    left: 50%;
+    bottom: 6px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: radial-gradient(circle at 50% 40%, #7e91a5 0, #52667a 65%, #334558 100%);
+    box-shadow: 0 8px 14px rgba(2, 10, 17, 0.45);
+}
+
+.landing-nacelle {
+    position: absolute;
+    width: 56px;
+    height: 23px;
+    left: 50%;
+    top: 63px;
+    transform: translateX(-10px);
+    border-radius: 10px;
+    background: linear-gradient(180deg, #eaf5fe, #a8bbce 62%, #7389a1 100%);
+    box-shadow: 0 3px 8px rgba(2, 10, 16, 0.35);
+    z-index: 2;
+}
+
+.landing-rotor {
+    position: absolute;
+    width: 146px;
+    height: 146px;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    animation: landingRotorSpin 6.8s linear infinite;
+    transform-origin: 50% 50%;
+    z-index: 3;
+}
+
+.landing-hub {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    left: calc(50% - 13px);
+    top: calc(50% - 13px);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f2f8fd, #9cb0c5 66%, #6d839a 100%);
+    box-shadow: 0 0 10px rgba(204, 232, 250, 0.45);
+}
+
+.landing-blade {
+    position: absolute;
+    width: 14px;
+    height: 72px;
+    left: calc(50% - 7px);
+    top: calc(50% - 72px);
+    transform-origin: 50% 100%;
+    border-radius: 14px 14px 5px 5px;
+    background: linear-gradient(180deg, #f3fbff, #b6cbde 64%, #869cb2 100%);
+    box-shadow: 0 5px 8px rgba(2, 13, 22, 0.28);
+}
+
+.landing-tail {
+    position: absolute;
+    width: 42px;
+    height: 12px;
+    left: calc(50% + 17px);
+    top: 68px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #d7e8f7, #849ab1 100%);
+    box-shadow: 0 2px 7px rgba(2, 12, 20, 0.32);
+    z-index: 1;
+}
+
+.landing-tail::after {
     content: '';
     position: absolute;
-    top: 26%;
+    right: -10px;
+    top: -8px;
+    width: 16px;
+    height: 28px;
+    border-radius: 3px 8px 8px 3px;
+    background: linear-gradient(180deg, #e8f4ff, #91a8bf 100%);
+}
+
+.landing-shadow {
+    position: absolute;
+    width: 118px;
+    height: 24px;
     left: 50%;
-    width: 90px;
-    height: 12px;
-    background: rgba(19, 32, 41, 0.8);
-    transform-origin: 8% 50%;
+    bottom: 2px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: rgba(1, 10, 18, 0.35);
+    filter: blur(3px);
 }
 
-.windmill-silhouette::before {
-    transform: translateX(-50%) rotate(24deg);
+.landing-blade.blade-1 {
+    transform: rotate(0deg);
 }
 
-.windmill-silhouette::after {
-    transform: translateX(-50%) rotate(-22deg);
+.landing-blade.blade-2 {
+    transform: rotate(120deg);
+}
+
+.landing-blade.blade-3 {
+    transform: rotate(240deg);
+}
+
+@keyframes landingRotorSpin {
+    from {
+        transform: translateX(-50%) rotate(0deg);
+    }
+
+    to {
+        transform: translateX(-50%) rotate(360deg);
+    }
+}
+
+.windmill-silhouette:hover,
+.windmill-silhouette:focus-visible {
+    transform: translateY(-3px) scale(calc(var(--landing-scale) * 1.04));
+    filter: brightness(1.15);
+}
+
+.windmill-silhouette:hover .landing-rotor,
+.windmill-silhouette:focus-visible .landing-rotor {
+    animation-duration: 3.8s;
+}
+
+.windmill-silhouette:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.72);
+    outline-offset: 5px;
+}
+
+.wind-tooltip {
+    bottom: 118%;
+    left: 50%;
+}
+
+.windmill-silhouette:hover .wind-tooltip,
+.windmill-silhouette:focus-visible .wind-tooltip {
+    opacity: 1;
 }
 
 .welcome-text {
@@ -1177,6 +1318,211 @@ h3 {
     animation: haloBreath 1.9s ease-in-out infinite;
 }
 
+.wind-page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #0a2636, #0d3f57 44%, #17708c 100%);
+    position: relative;
+    color: var(--text-light);
+    overflow-x: hidden;
+}
+
+.wind-haze {
+    position: fixed;
+    inset: -24vh -24vw auto;
+    height: 72vh;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(14px);
+    background: radial-gradient(circle at 18% 34%, rgba(198, 247, 255, 0.24), transparent 52%),
+        radial-gradient(circle at 72% 20%, rgba(255, 223, 170, 0.2), transparent 45%);
+    animation: auroraFloat 9.2s ease-in-out infinite alternate;
+}
+
+.wind-shell {
+    border-radius: 30px;
+    padding: clamp(1rem, 3vw, 2rem);
+    padding-top: clamp(7rem, 11vw, 8.3rem);
+    background: linear-gradient(140deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06));
+    border: 1px solid rgba(197, 239, 255, 0.25);
+    box-shadow: 0 30px 52px rgba(2, 12, 24, 0.34);
+    position: relative;
+    overflow: hidden;
+}
+
+.wind-controls {
+    display: grid;
+    gap: 0.55rem;
+    margin-bottom: 1.2rem;
+    padding: 0.8rem 1rem;
+    border-radius: 16px;
+    background: rgba(8, 31, 49, 0.58);
+    border: 1px solid rgba(169, 224, 248, 0.26);
+}
+
+.wind-controls label {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #dff6ff;
+}
+
+.wind-controls input[type='range'] {
+    width: 100%;
+    accent-color: #7be8ff;
+    cursor: pointer;
+}
+
+.wind-threshold-note {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #bde8f8;
+}
+
+.wind-scene {
+    display: grid;
+    justify-items: center;
+    gap: 1.2rem;
+}
+
+.turbine-wrap {
+    position: relative;
+    width: min(250px, 62vw);
+    height: 246px;
+    display: grid;
+    justify-items: center;
+    align-items: end;
+}
+
+.wind-tower {
+    width: 17px;
+    height: 158px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #d5e1ea, #99a8ba 55%, #6f8094 100%);
+    box-shadow: 0 16px 22px rgba(1, 12, 22, 0.42);
+    position: absolute;
+    top: 70px;
+    z-index: 1;
+}
+
+.wind-base {
+    width: 104px;
+    height: 16px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 50% 40%, #7d90a5 0, #4d6176 66%, #354659 100%);
+    box-shadow: 0 10px 16px rgba(2, 12, 20, 0.48);
+    position: absolute;
+    bottom: 0;
+}
+
+.wind-turbine {
+    position: absolute;
+    top: 0;
+    width: 162px;
+    height: 162px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: default;
+    display: grid;
+    place-items: center;
+    z-index: 2;
+    transition: transform 0.24s ease;
+}
+
+.wind-rotor {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: rotate(0deg);
+    transform-origin: 50% 50%;
+    will-change: transform;
+}
+
+.wind-hub {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    left: calc(50% - 11px);
+    top: calc(50% - 11px);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f0f6fb, #92a6bf 65%, #698098 100%);
+    box-shadow: 0 0 12px rgba(218, 244, 255, 0.35);
+    z-index: 3;
+}
+
+.wind-blade {
+    position: absolute;
+    width: 11px;
+    height: 66px;
+    left: calc(50% - 5.5px);
+    top: calc(50% - 66px);
+    transform-origin: 50% 100%;
+    border-radius: 12px 12px 4px 4px;
+    background: linear-gradient(180deg, #eaf6ff, #a9bfd4 66%, #7f95ad 100%);
+    box-shadow: 0 7px 10px rgba(4, 16, 27, 0.26);
+}
+
+.blade-a {
+    transform: rotate(0deg);
+}
+
+.blade-b {
+    transform: rotate(120deg);
+}
+
+.blade-c {
+    transform: rotate(240deg);
+}
+
+.wind-turbine.has-threshold .wind-hub {
+    box-shadow: 0 0 16px rgba(190, 245, 255, 0.55);
+}
+
+.wind-turbine.is-generating .wind-hub {
+    box-shadow: 0 0 22px rgba(117, 244, 255, 0.85);
+}
+
+.wind-wire {
+    --wire-len: min(170px, 44vw);
+    width: min(520px, 92vw);
+    height: 170px;
+    position: relative;
+}
+
+.wind-base-main,
+.wind-flow-main {
+    left: calc(50% - 4px);
+    top: 6px;
+    transform: rotate(90deg);
+}
+
+.wind-spark-a {
+    left: calc(50% - 5px);
+    top: 6px;
+    transform-origin: 0 50%;
+    transform: rotate(90deg);
+    animation: sparkTravelMain var(--spark-speed) linear infinite;
+}
+
+.wind-spark-b {
+    left: calc(50% - 5px);
+    top: 6px;
+    transform-origin: 0 50%;
+    transform: rotate(90deg);
+    animation: sparkTravelMain calc(var(--spark-speed) * 1.02) linear infinite;
+    animation-delay: 0.72s;
+}
+
+.wind-node-turbine {
+    left: calc(50% - 5px);
+    top: 2px;
+}
+
+.wind-node-bulb {
+    left: calc(50% - 5px);
+    top: calc(var(--wire-len) + 2px);
+}
+
 @keyframes filamentPulse {
     0%,
     100% {
@@ -1239,8 +1585,28 @@ h3 {
 
     .windmill-silhouette {
         right: 7%;
-        width: 72px;
-        height: 112px;
+        width: 138px;
+        height: 206px;
+        top: -86px;
+    }
+
+    .landing-tower {
+        width: 20px;
+        height: 150px;
+        top: 46px;
+    }
+
+    .landing-rotor {
+        width: 92px;
+        height: 92px;
+        top: 0;
+    }
+
+    .landing-blade {
+        width: 10px;
+        height: 44px;
+        left: calc(50% - 5px);
+        top: calc(50% - 44px);
     }
 
     .solar-header {
@@ -1260,6 +1626,10 @@ h3 {
     .working-help {
         top: 0.9rem;
         left: 0.9rem;
+    }
+
+    .wind-shell {
+        padding-top: 6.2rem;
     }
 
     .working-panel {
@@ -1294,5 +1664,20 @@ h3 {
 
     .pill {
         font-size: 0.8rem;
+    }
+
+    .turbine-wrap {
+        width: min(220px, 72vw);
+        height: 226px;
+    }
+
+    .wind-turbine {
+        width: 148px;
+        height: 148px;
+    }
+
+    .wind-blade {
+        height: 60px;
+        top: calc(50% - 60px);
     }
 }

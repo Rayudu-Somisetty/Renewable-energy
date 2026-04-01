@@ -3,9 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if on solar.html page
     if (document.body.classList.contains('solar-page')) {
         initSolarSimulation();
+    } else if (document.body.classList.contains('wind-page')) {
+        initWindSimulation();
     } else {
         // Landing page (index.html) interactions
         const landingSun = document.getElementById('landing-sun');
+        const landingWindmill = document.getElementById('landing-windmill');
         const welcomePanel = document.querySelector('.welcome-text');
 
         if (landingSun) {
@@ -13,6 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.classList.add('sun-transition');
                 setTimeout(function() {
                     window.location.href = 'solar.html';
+                }, 280);
+            });
+        }
+
+        if (landingWindmill) {
+            landingWindmill.addEventListener('click', function() {
+                document.body.classList.add('sun-transition');
+                setTimeout(function() {
+                    window.location.href = 'wind.html';
                 }, 280);
             });
         }
@@ -158,4 +170,151 @@ function initSolarSimulation() {
 
     // Initial update
     animationFrameId = requestAnimationFrame(updateCircuit);
+}
+
+function initWindSimulation() {
+    const CUT_IN_SPEED = 25;
+    const MAX_SPEED = 80;
+    const MAX_FLOW = 92;
+    const MIN_ACTIVE_FLOW = 42;
+    const MIN_ACTIVE_RPM = 7;
+    const MAX_ACTIVE_RPM = 52;
+    let currentRpm = 0;
+    let targetRpm = 0;
+    let rotorAngle = 0;
+    let lastFrameTime = 0;
+    let rotorFrameId = null;
+
+    const speedSlider = document.getElementById('wind-speed');
+    const turbine = document.getElementById('wind-turbine');
+    const windRotor = document.getElementById('wind-rotor');
+    const speedPill = document.getElementById('wind-speed-pill');
+    const statePill = document.getElementById('wind-state-pill');
+    const flowPill = document.getElementById('wind-flow-pill');
+    const wireGlow = document.getElementById('wind-wire-glow');
+    const windBulb = document.getElementById('wind-bulb');
+    const windFilament = document.getElementById('wind-filament');
+    const windBulbGlow = document.getElementById('wind-bulb-glow');
+    const workingBtn = document.getElementById('wind-working-btn');
+    const workingPanel = document.getElementById('wind-working-panel');
+
+    if (!speedSlider || !turbine || !windRotor || !wireGlow || !windBulb || !windFilament || !windBulbGlow) {
+        return;
+    }
+
+    function getTargetRpm(windSpeed) {
+        if (windSpeed < CUT_IN_SPEED) {
+            return 0;
+        }
+
+        const normalizedSpeed = (windSpeed - CUT_IN_SPEED) / (MAX_SPEED - CUT_IN_SPEED);
+        return MIN_ACTIVE_RPM + Math.max(0, normalizedSpeed) * (MAX_ACTIVE_RPM - MIN_ACTIVE_RPM);
+    }
+
+    function animateRotor(timestamp) {
+        if (!lastFrameTime) {
+            lastFrameTime = timestamp;
+        }
+
+        const deltaTime = timestamp - lastFrameTime;
+        lastFrameTime = timestamp;
+        const response = targetRpm > currentRpm ? 0.08 : 0.02;
+
+        currentRpm += (targetRpm - currentRpm) * response;
+        if (targetRpm === 0 && currentRpm < 0.03) {
+            currentRpm = 0;
+        }
+
+        rotorAngle = (rotorAngle + currentRpm * 0.006 * deltaTime) % 360;
+        windRotor.style.transform = 'rotate(' + String(rotorAngle.toFixed(2)) + 'deg)';
+
+        if (currentRpm > 0 || targetRpm > 0) {
+            rotorFrameId = requestAnimationFrame(animateRotor);
+        } else {
+            rotorFrameId = null;
+            lastFrameTime = 0;
+        }
+    }
+
+    function ensureRotorAnimation() {
+        if (!rotorFrameId) {
+            rotorFrameId = requestAnimationFrame(animateRotor);
+        }
+    }
+
+    if (workingBtn && workingPanel) {
+        workingBtn.addEventListener('click', function() {
+            const isOpen = !workingPanel.hasAttribute('hidden');
+            if (isOpen) {
+                workingPanel.setAttribute('hidden', '');
+                workingBtn.setAttribute('aria-expanded', 'false');
+            } else {
+                workingPanel.removeAttribute('hidden');
+                workingBtn.setAttribute('aria-expanded', 'true');
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!workingPanel.hasAttribute('hidden') && !event.target.closest('#wind-working-wrap')) {
+                workingPanel.setAttribute('hidden', '');
+                workingBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    speedSlider.addEventListener('input', updateWindCircuit);
+
+    function updateWindCircuit() {
+        const windSpeed = Number(speedSlider.value);
+        const hasThresholdSpeed = windSpeed >= CUT_IN_SPEED;
+        const canGenerate = hasThresholdSpeed;
+        targetRpm = getTargetRpm(windSpeed);
+
+        if (targetRpm > 0 || currentRpm > 0) {
+            ensureRotorAnimation();
+        }
+
+        let flow = 0;
+        if (canGenerate) {
+            const normalized = (windSpeed - CUT_IN_SPEED) / (MAX_SPEED - CUT_IN_SPEED);
+            const clamped = Math.min(1, Math.max(0, normalized));
+            flow = Math.round(MIN_ACTIVE_FLOW + clamped * (MAX_FLOW - MIN_ACTIVE_FLOW));
+        }
+        turbine.classList.toggle('has-threshold', hasThresholdSpeed);
+        turbine.classList.toggle('is-running', targetRpm > 0 || currentRpm > 0);
+        turbine.classList.toggle('is-generating', canGenerate);
+
+        const flowRatio = flow / 100;
+        wireGlow.style.opacity = String(flow / 120);
+        wireGlow.style.setProperty('--flow-speed', String(1.8 - flowRatio * 0.8) + 's');
+        wireGlow.style.setProperty('--spark-speed', String(1.9 - flowRatio * 0.9) + 's');
+
+        windFilament.style.borderColor = flow > 0 ? '#ffb347' : '#76695d';
+        windFilament.style.filter = flow > 0 ? 'drop-shadow(0 0 9px rgba(255, 194, 104, 0.95))' : 'none';
+
+        windBulbGlow.style.opacity = String(flow / 100);
+        windBulbGlow.style.transform = 'translateX(-50%) scale(' + String(0.93 + flowRatio * 0.13) + ')';
+        windBulbGlow.style.boxShadow = flow > 0
+            ? '0 0 84px rgba(255, 245, 166, 0.95), 0 0 138px rgba(255, 165, 92, 0.5)'
+            : 'none';
+        windBulb.classList.toggle('is-active', flow > 0);
+
+        if (speedPill) {
+            speedPill.textContent = 'Wind Speed: ' + String(windSpeed) + ' km/h';
+        }
+
+        if (statePill) {
+            if (!hasThresholdSpeed) {
+                statePill.textContent = 'Turbine: Running, Low Wind';
+            } else {
+                statePill.textContent = 'Turbine: Running';
+            }
+        }
+
+        if (flowPill) {
+            flowPill.textContent = flow > 0 ? 'Current: Active' : 'Current: Idle';
+        }
+    }
+
+    updateWindCircuit();
 }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wind Energy Simulation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="wind-page">
+    <div class="wind-haze" aria-hidden="true"></div>
+
+    <header class="solar-header">
+        <div>
+            <p class="eyebrow">Interactive Energy Studio</p>
+            <h1>Wind Energy Module</h1>
+        </div>
+        <a href="index.html" class="back-btn">Back to Landing</a>
+    </header>
+
+    <main class="solar-sim">
+        <section class="sim-intro">
+            <h2>Set wind speed with the regulator. When speed crosses the threshold, power flows and the bulb glows.</h2>
+            <div class="state-pills">
+                <span id="wind-speed-pill" class="pill">Wind Speed: 0 km/h</span>
+                <span id="wind-state-pill" class="pill">Turbine: Running, Low Wind</span>
+                <span id="wind-flow-pill" class="pill">Current: Idle</span>
+            </div>
+        </section>
+
+        <section class="wind-shell">
+            <div class="working-help" id="wind-working-wrap">
+                <button id="wind-working-btn" class="working-btn" type="button" aria-expanded="false" aria-controls="wind-working-panel">Working</button>
+                <div id="wind-working-panel" class="working-panel" hidden>
+                    <h3>How Wind Power Works</h3>
+                    <ul>
+                        <li>Moving air pushes turbine blades and turns the rotor.</li>
+                        <li>The shaft transfers rotation to a generator inside the nacelle.</li>
+                        <li>Above cut-in wind speed, electrical output becomes usable.</li>
+                        <li>Power moves through wires to the load and lights the bulb.</li>
+                        <li>Below threshold wind, the turbine cannot sustain generation.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="wind-controls">
+                <label for="wind-speed">Wind Speed Regulator</label>
+                <input id="wind-speed" type="range" min="0" max="80" value="0" step="1" aria-label="Wind speed regulator">
+                <p class="wind-threshold-note">Generation threshold: <strong>25 km/h</strong></p>
+            </div>
+
+            <div class="wind-scene">
+                <div class="turbine-wrap">
+                    <div id="wind-turbine" class="wind-turbine" role="img" aria-label="Wind turbine rotor">
+                        <span class="wind-rotor" id="wind-rotor" aria-hidden="true">
+                            <span class="wind-hub"></span>
+                            <span class="wind-blade blade-a"></span>
+                            <span class="wind-blade blade-b"></span>
+                            <span class="wind-blade blade-c"></span>
+                        </span>
+                    </div>
+                    <div class="wind-tower" aria-hidden="true"></div>
+                    <div class="wind-base" aria-hidden="true"></div>
+                </div>
+
+                <div class="wind-wire" id="wind-wire" aria-hidden="true">
+                    <div class="wire-layer wire-base-layer">
+                        <div class="wire-seg wind-base-main"></div>
+                    </div>
+                    <div class="wire-layer wire-flow-layer" id="wind-wire-glow">
+                        <div class="wire-seg wind-flow-main"></div>
+                        <span class="spark wind-spark-a"></span>
+                        <span class="spark wind-spark-b"></span>
+                    </div>
+                    <span class="wire-node wind-node-turbine"></span>
+                    <span class="wire-node wind-node-bulb"></span>
+                </div>
+
+                <div class="bulb-section">
+                    <div class="bulb proper-bulb" id="wind-bulb">
+                        <div class="bulb-cap" aria-hidden="true"></div>
+                        <div class="filament-rail rail-left" aria-hidden="true"></div>
+                        <div class="filament-rail rail-right" aria-hidden="true"></div>
+                        <div class="filament-loop" id="wind-filament"></div>
+                        <div class="bulb-glow" id="wind-bulb-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
