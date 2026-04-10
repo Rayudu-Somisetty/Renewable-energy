@@ -22,10 +22,10 @@
 
     <main class="solar-sim">
         <section class="sim-intro">
-            <h2>Set wind speed with the regulator. When speed crosses the threshold, power flows and the bulb glows.</h2>
+            <h2>Set wind speed and watch the turbine run continuously. When speed crosses the threshold, power flows and the bulb glows.</h2>
             <div class="state-pills">
                 <span id="wind-speed-pill" class="pill">Wind Speed: 0 km/h</span>
-                <span id="wind-state-pill" class="pill">Turbine: Running, Low Wind</span>
+                <span id="wind-state-pill" class="pill">Turbine: Running</span>
                 <span id="wind-flow-pill" class="pill">Current: Idle</span>
             </div>
         </section>
@@ -48,12 +48,12 @@
             <div class="wind-controls">
                 <label for="wind-speed">Wind Speed Regulator</label>
                 <input id="wind-speed" type="range" min="0" max="80" value="0" step="1" aria-label="Wind speed regulator">
-                <p class="wind-threshold-note">Generation threshold: <strong>25 km/h</strong></p>
+                <p class="wind-threshold-note">Generation threshold: <strong>14 km/h</strong></p>
             </div>
 
             <div class="wind-scene">
                 <div class="turbine-wrap">
-                    <div id="wind-turbine" class="wind-turbine" role="img" aria-label="Wind turbine rotor">
+                    <div id="wind-turbine" class="wind-turbine" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="wind-parts-popup" aria-label="Show wind turbine parts">
                         <span class="wind-rotor" id="wind-rotor" aria-hidden="true">
                             <span class="wind-hub"></span>
                             <span class="wind-blade blade-a"></span>
@@ -63,6 +63,14 @@
                     </div>
                     <div class="wind-tower" aria-hidden="true"></div>
                     <div class="wind-base" aria-hidden="true"></div>
+                </div>
+
+                <div class="wind-parts-popup" id="wind-parts-popup" hidden role="dialog" aria-label="Wind turbine parts">
+                    <button type="button" class="wind-parts-close" id="wind-parts-close" aria-label="Close wind turbine parts image">&times;</button>
+                    <img src="wind turbine parts.jpeg" alt="Wind turbine parts diagram">
+                    <p>As wind speed meets the requirement , the wind turbine start to rotate and transfered to generator which in turn generates the electricity.
+                        
+                    </p>
                 </div>
 
                 <div class="wind-wire" id="wind-wire" aria-hidden="true">

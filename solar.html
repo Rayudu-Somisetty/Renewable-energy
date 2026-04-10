@@ -57,12 +57,18 @@
                         <span class="mount-pole"></span>
                         <span class="mount-base"></span>
                     </div>
-                    <div class="solar-panel proper-panel" id="solar-panel">
+                    <div class="solar-panel proper-panel" id="solar-panel" tabindex="0" role="button" aria-haspopup="dialog" aria-controls="solar-panel-popup" aria-label="Show photovoltaic cell explanation">
                         <div class="panel-frame"></div>
                         <div class="panel-cells"></div>
                         <div class="panel-shine" id="panel-shine"></div>
                     </div>
                 </div>
+            </div>
+
+            <div class="solar-panel-popup" id="solar-panel-popup" hidden role="dialog" aria-label="Photovoltaic cell explanation">
+                <button type="button" class="panel-popup-close" id="panel-popup-close" aria-label="Close photovoltaic explanation">&times;</button>
+                <img src="photovoltaic%20cell%20explaination.jpeg" alt="Photovoltaic cell explanation diagram">
+                <p>Photovoltaic cells convert sunlight into electrical energy through the photovoltaic effect.</p>
             </div>
 
             <div class="wiring" id="wiring" aria-hidden="true">

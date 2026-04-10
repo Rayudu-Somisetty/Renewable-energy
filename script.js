@@ -72,6 +72,8 @@ function initSolarSimulation() {
     const solarPanel = document.getElementById('solar-panel');
     const panelRig = document.getElementById('panel-rig');
     const panelShine = document.getElementById('panel-shine');
+    const panelPopup = document.getElementById('solar-panel-popup');
+    const panelPopupClose = document.getElementById('panel-popup-close');
     const wiringGlow = document.getElementById('wire-glow');
     const filament = document.getElementById('filament');
     const bulb = document.getElementById('bulb');
@@ -80,6 +82,8 @@ function initSolarSimulation() {
     const flowPill = document.getElementById('state-flow');
     const workingBtn = document.getElementById('working-btn');
     const workingPanel = document.getElementById('working-panel');
+    let isPanelPopupPinned = false;
+    let panelPopupHideTimer = null;
 
     if (workingBtn && workingPanel) {
         workingBtn.addEventListener('click', function() {
@@ -100,6 +104,97 @@ function initSolarSimulation() {
             }
         });
     }
+
+    function showPanelPopup(pin) {
+        if (!panelPopup) {
+            return;
+        }
+
+        if (panelPopupHideTimer) {
+            window.clearTimeout(panelPopupHideTimer);
+            panelPopupHideTimer = null;
+        }
+
+        if (pin) {
+            isPanelPopupPinned = true;
+        }
+
+        panelPopup.hidden = false;
+        panelPopup.classList.add('is-visible');
+    }
+
+    function hidePanelPopup(force) {
+        if (!panelPopup) {
+            return;
+        }
+
+        if (force) {
+            isPanelPopupPinned = false;
+        }
+
+        if (isPanelPopupPinned && !force) {
+            return;
+        }
+
+        panelPopup.classList.remove('is-visible');
+        panelPopupHideTimer = window.setTimeout(function() {
+            panelPopup.hidden = true;
+        }, 180);
+    }
+
+    if (solarPanel && panelPopup) {
+        solarPanel.addEventListener('mouseenter', function() {
+            showPanelPopup(false);
+        });
+
+        solarPanel.addEventListener('focusin', function() {
+            showPanelPopup(false);
+        });
+
+        solarPanel.addEventListener('mouseleave', function() {
+            hidePanelPopup(false);
+        });
+
+        solarPanel.addEventListener('click', function(event) {
+            event.stopPropagation();
+            isPanelPopupPinned = !isPanelPopupPinned;
+            if (isPanelPopupPinned) {
+                showPanelPopup(true);
+            } else {
+                hidePanelPopup(true);
+            }
+        });
+
+        solarPanel.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                solarPanel.click();
+            }
+        });
+    }
+
+    if (panelPopup) {
+        panelPopup.addEventListener('mouseenter', function() {
+            showPanelPopup(false);
+        });
+
+        panelPopup.addEventListener('mouseleave', function() {
+            hidePanelPopup(false);
+        });
+    }
+
+    if (panelPopupClose) {
+        panelPopupClose.addEventListener('click', function(event) {
+            event.stopPropagation();
+            hidePanelPopup(true);
+        });
+    }
+
+    document.addEventListener('click', function(event) {
+        if (panelPopup && !panelPopup.hidden && !event.target.closest('#solar-panel-popup') && !event.target.closest('#solar-panel')) {
+            hidePanelPopup(true);
+        }
+    });
 
     // Toggle sun/moon
     toggleBtn.addEventListener('click', function() {
@@ -173,7 +268,7 @@ function initSolarSimulation() {
 }
 
 function initWindSimulation() {
-    const CUT_IN_SPEED = 25;
+    const CUT_IN_SPEED = 14;
     const MAX_SPEED = 80;
     const MAX_FLOW = 92;
     const MIN_ACTIVE_FLOW = 42;
@@ -197,6 +292,10 @@ function initWindSimulation() {
     const windBulbGlow = document.getElementById('wind-bulb-glow');
     const workingBtn = document.getElementById('wind-working-btn');
     const workingPanel = document.getElementById('wind-working-panel');
+    const windPartsPopup = document.getElementById('wind-parts-popup');
+    const windPartsClose = document.getElementById('wind-parts-close');
+    let isWindPopupPinned = false;
+    let windPopupHideTimer = null;
 
     if (!speedSlider || !turbine || !windRotor || !wireGlow || !windBulb || !windFilament || !windBulbGlow) {
         return;
@@ -262,6 +361,95 @@ function initWindSimulation() {
         });
     }
 
+    function showWindPartsPopup(pin) {
+        if (!windPartsPopup) {
+            return;
+        }
+
+        if (windPopupHideTimer) {
+            window.clearTimeout(windPopupHideTimer);
+            windPopupHideTimer = null;
+        }
+
+        if (pin) {
+            isWindPopupPinned = true;
+        }
+
+        windPartsPopup.hidden = false;
+        windPartsPopup.classList.add('is-visible');
+    }
+
+    function hideWindPartsPopup(force) {
+        if (!windPartsPopup) {
+            return;
+        }
+
+        if (force) {
+            isWindPopupPinned = false;
+        }
+
+        if (isWindPopupPinned && !force) {
+            return;
+        }
+
+        windPartsPopup.classList.remove('is-visible');
+        windPopupHideTimer = window.setTimeout(function() {
+            windPartsPopup.hidden = true;
+        }, 180);
+    }
+
+    if (windPartsPopup) {
+        turbine.addEventListener('mouseenter', function() {
+            showWindPartsPopup(false);
+        });
+
+        turbine.addEventListener('focusin', function() {
+            showWindPartsPopup(false);
+        });
+
+        turbine.addEventListener('mouseleave', function() {
+            hideWindPartsPopup(false);
+        });
+
+        turbine.addEventListener('click', function(event) {
+            event.stopPropagation();
+            isWindPopupPinned = !isWindPopupPinned;
+            if (isWindPopupPinned) {
+                showWindPartsPopup(true);
+            } else {
+                hideWindPartsPopup(true);
+            }
+        });
+
+        turbine.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                turbine.click();
+            }
+        });
+
+        windPartsPopup.addEventListener('mouseenter', function() {
+            showWindPartsPopup(false);
+        });
+
+        windPartsPopup.addEventListener('mouseleave', function() {
+            hideWindPartsPopup(false);
+        });
+    }
+
+    if (windPartsClose) {
+        windPartsClose.addEventListener('click', function(event) {
+            event.stopPropagation();
+            hideWindPartsPopup(true);
+        });
+    }
+
+    document.addEventListener('click', function(event) {
+        if (windPartsPopup && !windPartsPopup.hidden && !event.target.closest('#wind-parts-popup') && !event.target.closest('#wind-turbine')) {
+            hideWindPartsPopup(true);
+        }
+    });
+
     speedSlider.addEventListener('input', updateWindCircuit);
 
     function updateWindCircuit() {
@@ -281,7 +469,7 @@ function initWindSimulation() {
             flow = Math.round(MIN_ACTIVE_FLOW + clamped * (MAX_FLOW - MIN_ACTIVE_FLOW));
         }
         turbine.classList.toggle('has-threshold', hasThresholdSpeed);
-        turbine.classList.toggle('is-running', targetRpm > 0 || currentRpm > 0);
+        turbine.classList.add('is-running');
         turbine.classList.toggle('is-generating', canGenerate);
 
         const flowRatio = flow / 100;
